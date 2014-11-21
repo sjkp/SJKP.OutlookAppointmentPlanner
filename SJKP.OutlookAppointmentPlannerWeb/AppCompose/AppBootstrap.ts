@@ -9,15 +9,16 @@ declare var Office: any;
 
 require.config({
 
-    //baseUrl: '/Scripts/',
+    baseUrl: '/Scripts/',
 
     paths: {
         //main libraries
         jquery: '/Scripts/jquery-1.9.1',
         knockout: '/Scripts/knockout-3.2.0',
-
+        'jquery-ui': '/Scripts/jquery-ui',
+        'knockout-jqueryui': '/Scripts/knockout-jqueryui',
         ////shortcut paths
-        //templates: '../templates',
+        AppCompose: '../AppCompose',
         //data: '../data',
 
         ////require plugins
@@ -39,9 +40,10 @@ require.config({
 
 require(
     [
-        'Home/Home',
+        'AppCompose/Home/Home',
         'jquery',
         'knockout',
+        'knockout-jqueryui/datepicker',
     ],
     (Home, $, ko) => {
         'use strict';

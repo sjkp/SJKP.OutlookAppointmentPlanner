@@ -1,4 +1,6 @@
-﻿/* Common app functionality */
+﻿/// <reference path="../scripts/typings/jqueryui/jqueryui.d.ts" />
+/* Common app functionality */
+
 
 export module app {
     // Common initialization function (to be called from each page)
@@ -15,6 +17,8 @@ export module app {
         $('#notification-message-close').click(function () {
             $('#notification-message').hide();
         });
+
+        //$('#datepicker').datepicker({ inline: true });
 
     };
     // After initialization, expose a common notification function

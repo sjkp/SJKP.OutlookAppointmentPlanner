@@ -17,6 +17,8 @@
     <script src="../../Scripts/require.js"  data-main="../AppBootstrap" type="text/javascript"></script>
 
     <link href="Home.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/jquery-ui.min.css" type="text/css"/>
+    <link href="../../Content/jquery-ui.theme.min.css" type="text/css"/>
 </head>
 <body>
     <div id="content-header">
@@ -31,6 +33,11 @@
             <button data-bind="click:setSubject">Set subject</button><button data-bind="click:getSubject">Get subject</button>
             <button data-bind="click:addToRecipients">Add yourself to recipients list</button>
 
+            <div id="datepicker" data-bind="datepicker: {value: date, onSelect: dateClicked}"></div>
+            <span data-bind="text: date"></span>
+            <ul data-bind="foreach: dates">
+                <li data-bind="text: $data"></li>
+            </ul>
             <p style="margin-top: 50px;">
                 <a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=276814">Find more samples online...</a>
             </p>
