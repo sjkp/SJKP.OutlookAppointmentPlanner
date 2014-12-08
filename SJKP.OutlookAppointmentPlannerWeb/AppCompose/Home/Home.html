@@ -14,7 +14,12 @@
     <!--  <script src="../../Scripts/Office/1.1/office.js" type="text/javascript"></script>  -->
 
     <link href="../App.css" rel="stylesheet" type="text/css" />
-    <script src="../../Scripts/require.js"  data-main="../AppBootstrap" type="text/javascript"></script>
+    <script src="../../Scripts/require.js" type="text/javascript"></script>
+    <script>
+        require(['../../App/AppConfig'], function (config) {
+            require(['AppCompose/Home/Home']);
+        });
+    </script>
 
     <link href="Home.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/jquery-ui.min.css" type="text/css"/>
@@ -27,20 +32,47 @@
         </div>
     </div>
     <div id="content-main">
-        <div class="padding">
-            <p><strong>Add home screen content here.</strong></p>
-            <p>For example:</p>
-            <button data-bind="click:setSubject">Set subject</button><button data-bind="click:getSubject">Get subject</button>
-            <button data-bind="click:addToRecipients">Add yourself to recipients list</button>
+        <div class="padding">                        
+            <div id="step1" data-bind="visible: step() == 1">
+                <div id="datepicker" data-bind="datepicker: {value: date, onSelect: dateClicked}"></div>
+                <span data-bind="text: date"></span>
+                <ul data-bind="foreach: dates">
+                    <li data-bind="text: $data"></li>
+                </ul>
 
-            <div id="datepicker" data-bind="datepicker: {value: date, onSelect: dateClicked}"></div>
-            <span data-bind="text: date"></span>
-            <ul data-bind="foreach: dates">
-                <li data-bind="text: $data"></li>
-            </ul>
-            <p style="margin-top: 50px;">
-                <a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=276814">Find more samples online...</a>
-            </p>
+            </div>
+            <div id="timepicker" data-bind="visible: step() == 2">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Time slot 1</th>
+                            <th>Time slot 2</th>
+                            <th>Time slot 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: scheduledDates -->
+                        <tr>
+                            <td data-bind="text: date"></td>
+                            <!-- ko foreach: timeslots -->
+                            <td><input data-bind="value: time" /></td>
+                            <!-- /ko -->
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="message" data-bind="visible: step() == 3">
+                <span data-bind="visible: loading">Creating Appointment...</span>
+                <div data-bind="visible: !loading()">
+                    Send the following url to the people who you want give feedback on times for the appointment
+                    <input data-bind="value: url" readonly="readonly" />
+                    <signup params="id: id"></signup>
+                </div>
+            </div>
+            <button data-bind="click: prev, visible: step() > 1">Back</button>
+            <button data-bind="click: next">Next</button>
         </div>
     </div>
 </body>

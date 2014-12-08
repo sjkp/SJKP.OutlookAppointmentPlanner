@@ -1,0 +1,38 @@
+﻿<div class="signup-component">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <!-- ko foreach: scheduledDates-->
+                <th>
+                    <div data-bind ="text: date"></div>
+                    <div>
+                        <!-- ko foreach: timeslots -->
+                        <span data-bind="text: time"></span>
+                        <!-- /ko -->
+                    </div>
+                </th>
+                <!-- /ko -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-bind="foreach: attendees">
+                <td><span data-bind="value: name" /></td>
+                <!-- ko foreach: $parent.scheduledDates-->
+                <td>
+                    <div data-bind ="text: date"></div>
+                    <div>
+                        <!-- ko foreach: timeslots -->
+                        <span data-bind="text: time"></span>
+                        <!-- /ko -->
+                    </div>
+                </td>
+                <!-- /ko -->
+            </tr>
+            <tr data-bind="with: attendee">
+                <td><input data-bind="value: name" /></td>
+            </tr>            
+        </tbody>
+    </table>
+    <input type="button" value="Add" data-bind="click: send" />
+</div>

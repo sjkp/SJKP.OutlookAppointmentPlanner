@@ -7,6 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJKP.OutlookAppointmentPlan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJKP.OutlookAppointmentPlannerWeb", "SJKP.OutlookAppointmentPlannerWeb\SJKP.OutlookAppointmentPlannerWeb.csproj", "{7445E297-B1DB-4E7E-9120-000829B15820}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{BFA41F57-C121-4F16-AF07-5189043B83CC}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{87F23034-3DCB-469C-AA5F-FB7D240562CF}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\SJKPOutlookAppoinmentPlannerBackend-WAWS-dev.json = PublishScripts\Configurations\SJKPOutlookAppoinmentPlannerBackend-WAWS-dev.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,5 +37,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{87F23034-3DCB-469C-AA5F-FB7D240562CF} = {BFA41F57-C121-4F16-AF07-5189043B83CC}
 	EndGlobalSection
 EndGlobal
