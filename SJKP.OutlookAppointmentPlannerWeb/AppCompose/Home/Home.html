@@ -28,7 +28,8 @@
 <body>
     <div id="content-header">
         <div class="padding">
-            <h1>Welcome</h1>
+            <h1>Schdo.com</h1>
+            <i>Intelligent appointment scheduling</i>
         </div>
     </div>
     <div id="content-main">
@@ -68,7 +69,7 @@
                 <div data-bind="visible: !loading()">
                     Send the following url to the people who you want give feedback on times for the appointment
                     <input data-bind="value: url" readonly="readonly" />
-                    <signup params="id: id"></signup>
+                    <signup params="id: id, name: name, email: email"></signup>
                 </div>
             </div>
             <button data-bind="click: prev, visible: step() > 1">Back</button>

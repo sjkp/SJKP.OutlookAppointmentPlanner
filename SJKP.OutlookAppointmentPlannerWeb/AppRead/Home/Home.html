@@ -24,20 +24,21 @@
 
 </head>
 <body>
+    <div id="content-header">
+        <div class="padding">
+            <h1>Schdo.com</h1>
+            <i>Intelligent appointment scheduling</i>
+        </div>
+    </div>
     <div id="content-main">
         <div class="padding">
-            <p><strong>Add home screen content here.</strong></p>
-            <p>For example, this app was activated with following details:</p>
-            <table id="details">
-                <tr>
-                    <th>Subject:</th>
-                    <td id="subject"></td>
-                </tr>
-                <tr>
-                    <th>From:</th>
-                    <td id="from"></td>
-                </tr>
-            </table>
+            <div data-bind="visible: showNameDialog()">
+                <label for="email">Email:</label><input id="email" type="email" data-bind="value: email" /><br/>
+                <label for="name">Name:</label><input id="name" type="text" data-bind="value: name" />
+            </div>
+            <div data-bind="visible: !showNameDialog()">
+                <signup params="id: id, email: email, username: name"></signup>
+            </div>
         </div>
     </div>    
 </body>

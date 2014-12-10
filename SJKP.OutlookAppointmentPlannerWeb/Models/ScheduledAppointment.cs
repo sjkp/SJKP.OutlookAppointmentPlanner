@@ -23,6 +23,7 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
     {
         public Guid? Id {get;set;}
         public string Time {get;set;}
+        public bool Selected { get; set; }
     }
     
     

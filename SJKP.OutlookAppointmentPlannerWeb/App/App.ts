@@ -27,4 +27,18 @@ export module app {
         $('#notification-message-body').text(text);
         $('#notification-message').slideDown('fast');
     };
+
+    export var getEmail = () => {
+        if (typeof (Office.context.mailbox) === 'undefined') {
+            return '';
+        }
+        return Office.context.mailbox.userProfile.emailAddress;
+    };
+
+    export var getName = () => {
+        if (typeof (Office.context.mailbox) === 'undefined') {
+            return '';
+        }
+        return Office.context.mailbox.userProfile.displayName;
+    };
 };

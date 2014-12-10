@@ -159,12 +159,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\OutlookAppoinmentPlanner.pubxml" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\text.js" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Scripts\knockout.bindings.date.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -523,6 +528,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendee.cs" />
+    <Compile Include="Models\AttendeeData.cs" />
     <Compile Include="Models\IId.cs" />
     <Compile Include="Models\ScheduledAppointment.cs" />
     <Compile Include="Models\TableData.cs" />
@@ -534,6 +540,7 @@
     <TypeScriptCompile Include="App\App.ts" />
     <TypeScriptCompile Include="App\AppConfig.ts" />
     <TypeScriptCompile Include="App\Components\signup.ts" />
+    <TypeScriptCompile Include="App\Utils.ts" />
     <TypeScriptCompile Include="App\ViewModels\AttendeeViewModel.ts" />
     <TypeScriptCompile Include="App\ViewModels\ScheduledDateViewModel.ts" />
     <TypeScriptCompile Include="App\ViewModels\ScheduledTimeslotViewModel.ts" />

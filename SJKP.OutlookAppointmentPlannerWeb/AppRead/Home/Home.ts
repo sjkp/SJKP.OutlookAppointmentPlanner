@@ -1,9 +1,11 @@
 ﻿///<amd-dependency path="knockout" />
 ///<reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 ///<reference path="../../Scripts/typings/office/office.d.ts" />
+///<reference path="../../App/Utils.ts" />
 
 import app = require('App/App');
 import ScheduledDateViewModel = require('App/ViewModels/ScheduledDateViewModel');
+import Utils = require('App/Utils');
 var Office = Microsoft.Office.WebExtension;
 
 require(
@@ -16,14 +18,13 @@ require(
         'use strict';
         (<any>window).ko = ko;
         var home = new Home();
-        home.initialize();
-        if (typeof (Office) === 'undefined') {
-            //Debug mode
-
-        }
-        else {
-            Office.initialize = home.initialize;
-        }
+        Office.initialize = home.initialize;
+        //if (typeof (Office.context.mailbox) === 'undefined') {
+        //    home.initialize();
+        //}
+        //else {
+            
+        //}
     }
     );
 
@@ -37,29 +38,31 @@ export class Home {
     public initialize(reason?) {
         $(document).ready(() => {
             app.app.initialize();
-            //ko.applyBindings(new HomeViewModel());
-            this.displayItemDetails();
-
+            ko.applyBindings(new ReadViewModel());
         });
+    }    
+};
+
+export class ReadViewModel {
+
+    constructor() {
+        var id = Utils.Utils.getParmFromHash(window.location.href, 'id');
+        this.id = ko.observable(id);
+        this.name = ko.observable(app.app.getName());
+        this.email = ko.observable(app.app.getEmail());   
+        this.showNameDialog = ko.computed(() => {
+            if (this.name().length > 0 && this.email().length > 0) {
+                return false;
+            }
+            return true;
+        }, this);       
     }
 
-    // Displays the "Subject" and "From" fields, based on the current mail item
-    public displayItemDetails() {
-        var item = Office.cast.item.toItemRead(Office.context.mailbox.item);
+    public id: KnockoutObservable<string>;
+    public email: KnockoutObservable<string>;
+    public name: KnockoutObservable<string>;
 
-        $('#subject').text(item.subject);
-        var from;
-        if (item.itemType === Office.MailboxEnums.ItemType.Message) {
-            from = Office.cast.item.toMessageRead(item).from;
-        } else if (item.itemType === Office.MailboxEnums.ItemType.Appointment) {
-            from = Office.cast.item.toAppointmentRead(item).organizer;
-        }
+    public showNameDialog: any;
 
-        if (from) {
-            $('#from').text(from.displayName);
-            $('#from').click(function () {
-                app.app.showNotification(from.displayName, from.emailAddress);
-            });
-        }
-    }
+    
 };

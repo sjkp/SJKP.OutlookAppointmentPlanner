@@ -17,6 +17,8 @@ require.config({
         knockout: '/Scripts/knockout-3.2.0',
         'jquery-ui': '/Scripts/jquery-ui',
         'knockout-jqueryui': '/Scripts/knockout-jqueryui',
+        "moment": "/Scripts/moment",
+        'knockout-bindings-date': '/Scripts/knockout.bindings.date',
         ////shortcut paths
         AppCompose: '../AppCompose',
         AppRead: '../AppRead',
@@ -33,7 +35,7 @@ require.config({
     }
 });
 
-require(['knockout'], (ko) => {
+require(['knockout','knockout-bindings-date'], (ko) => {
     ko.components.register('signup', {
         viewModel: { require: '/App/Components/signup.js' },
         template: { require: 'text!/App/Components/signup.html' }

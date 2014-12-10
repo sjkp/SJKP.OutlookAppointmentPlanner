@@ -1,7 +1,8 @@
 ﻿///<amd-dependency path="knockout" />
 ///<reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 ///<reference path="../../Scripts/typings/office/office.d.ts" />
-define(["require", "exports", 'App/App', "knockout"], function(require, exports, app) {
+///<reference path="../../App/Utils.ts" />
+define(["require", "exports", 'App/App', 'App/Utils', "knockout"], function(require, exports, app, Utils) {
     var Office = Microsoft.Office.WebExtension;
 
     require([
@@ -12,12 +13,12 @@ define(["require", "exports", 'App/App', "knockout"], function(require, exports,
         'use strict';
         window.ko = ko;
         var home = new Home();
-        home.initialize();
-        if (typeof (Office) === 'undefined') {
-            //Debug mode
-        } else {
-            Office.initialize = home.initialize;
-        }
+        Office.initialize = home.initialize;
+        //if (typeof (Office.context.mailbox) === 'undefined') {
+        //    home.initialize();
+        //}
+        //else {
+        //}
     });
 
     var Home = (function () {
@@ -25,37 +26,33 @@ define(["require", "exports", 'App/App', "knockout"], function(require, exports,
         }
         // The initialize function must be run each time a new page is loaded
         Home.prototype.initialize = function (reason) {
-            var _this = this;
             $(document).ready(function () {
                 app.app.initialize();
-
-                //ko.applyBindings(new HomeViewModel());
-                _this.displayItemDetails();
+                ko.applyBindings(new ReadViewModel());
             });
-        };
-
-        // Displays the "Subject" and "From" fields, based on the current mail item
-        Home.prototype.displayItemDetails = function () {
-            var item = Office.cast.item.toItemRead(Office.context.mailbox.item);
-
-            $('#subject').text(item.subject);
-            var from;
-            if (item.itemType === Office.MailboxEnums.ItemType.Message) {
-                from = Office.cast.item.toMessageRead(item).from;
-            } else if (item.itemType === Office.MailboxEnums.ItemType.Appointment) {
-                from = Office.cast.item.toAppointmentRead(item).organizer;
-            }
-
-            if (from) {
-                $('#from').text(from.displayName);
-                $('#from').click(function () {
-                    app.app.showNotification(from.displayName, from.emailAddress);
-                });
-            }
         };
         return Home;
     })();
     exports.Home = Home;
+    ;
+
+    var ReadViewModel = (function () {
+        function ReadViewModel() {
+            var _this = this;
+            var id = Utils.Utils.getParmFromHash(window.location.href, 'id');
+            this.id = ko.observable(id);
+            this.name = ko.observable(app.app.getName());
+            this.email = ko.observable(app.app.getEmail());
+            this.showNameDialog = ko.computed(function () {
+                if (_this.name().length > 0 && _this.email().length > 0) {
+                    return false;
+                }
+                return true;
+            }, this);
+        }
+        return ReadViewModel;
+    })();
+    exports.ReadViewModel = ReadViewModel;
     ;
 });
 //# sourceMappingURL=Home.js.map

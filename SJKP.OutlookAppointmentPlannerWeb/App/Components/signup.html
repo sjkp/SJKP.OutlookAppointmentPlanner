@@ -4,35 +4,46 @@
             <tr>
                 <th></th>
                 <!-- ko foreach: scheduledDates-->
-                <th>
-                    <div data-bind ="text: date"></div>
-                    <div>
-                        <!-- ko foreach: timeslots -->
-                        <span data-bind="text: time"></span>
-                        <!-- /ko -->
-                    </div>
-                </th>
+                <th colspan="3" data-bind="date: date"></th>
                 <!-- /ko -->
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <!-- ko foreach: scheduledDates-->
+                        <!-- ko foreach: timeslots -->
+                        <th data-bind="text: time"></th>
+                        <!-- /ko -->          
+                <!-- /ko -->
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr data-bind="foreach: attendees">
-                <td><span data-bind="value: name" /></td>
-                <!-- ko foreach: $parent.scheduledDates-->
+            <!-- ko foreach: attendees -->
+            <tr>
+                <td><input data-bind="value: name, enable: isEditable()" /></td>
+                <!-- ko foreach: selectedDates -->
+                <!-- ko foreach: timeslots -->
                 <td>
-                    <div data-bind ="text: date"></div>
-                    <div>
-                        <!-- ko foreach: timeslots -->
-                        <span data-bind="text: time"></span>
-                        <!-- /ko -->
-                    </div>
+                    <input type="checkbox" data-bind="checked: selected, enable: $parents[1].isEditable()" />
                 </td>
                 <!-- /ko -->
+                <!-- /ko -->
+                <td><input type="button" data-bind="click: update, visible: isEditable()" value="Save"/></td>
             </tr>
+            <!-- /ko -->
             <tr data-bind="with: attendee">
                 <td><input data-bind="value: name" /></td>
+                <!-- ko foreach: selectedDates-->
+                <!-- ko foreach: timeslots -->
+                <td>
+                    <input type="checkbox" data-bind="checked: selected" />
+                </td>
+                <!-- /ko -->
+                <!-- /ko -->
+                <td><input type="button" value="Add" data-bind="click: $parent.save" /></td>
             </tr>            
         </tbody>
-    </table>
-    <input type="button" value="Add" data-bind="click: send" />
+    </table>    
+    
 </div>

@@ -15,9 +15,19 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
         }
         public TableData(T data)
         {
-            base.PartitionKey = data.GetType().Name;
-            base.RowKey = data.Id.Value.ToString();
+            base.PartitionKey = GetPartitionKey(data);
+            base.RowKey = GetRowKey(data);
             this.Data = JsonConvert.SerializeObject(data);
+        }
+
+        protected virtual string GetPartitionKey(T data)
+        {
+            return data.GetType().Name;
+        }
+
+        protected virtual string GetRowKey(T data)
+        {
+            return data.Id.Value.ToString();
         }
 
         public string Data { get; set; }

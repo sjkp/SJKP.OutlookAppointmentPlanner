@@ -16,14 +16,14 @@ require(
         'use strict';
         (<any>window).ko = ko;
         var home = new Home();
-        home.initialize();
-        if (typeof (Office) === 'undefined') {
-            //Debug mode
-
-        }
-        else {
-            Office.initialize = home.initialize;
-        }
+        Office.initialize = home.initialize;
+        //if (typeof (Office.context.mailbox) === 'undefined') {
+        //    //Debug mode
+        //    home.initialize();
+        //}
+        //else {
+            
+        //}
     }
     ); 
 
@@ -52,7 +52,9 @@ export class HomeViewModel {
         this.step = ko.observable(1);
         this.loading = ko.observable(false);
         this.url = ko.observable('');
-        this.id = ko.observable('065c855c-b974-4604-939f-89036af26e9c');
+        this.id = ko.observable('');
+        this.name = ko.observable(app.app.getName());
+        this.email = ko.observable(app.app.getEmail());  
         this.selectTimes = () => {
             this.scheduledDates.removeAll();
             var self = this;
@@ -71,6 +73,8 @@ export class HomeViewModel {
     public loading: KnockoutObservable<boolean>;
     public url: KnockoutObservable<string>;
     public id: KnockoutObservable<string>;
+    public name: KnockoutObservable<string>;
+    public email: KnockoutObservable<string>;
 
     public next = () => {
         var step = this.step() + 1;
