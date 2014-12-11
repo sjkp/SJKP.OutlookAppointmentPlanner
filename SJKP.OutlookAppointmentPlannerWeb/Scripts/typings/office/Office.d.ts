@@ -991,8 +991,8 @@ declare module Microsoft.Office.WebExtension {
         };
 
         body: {
-            getTypeAsync(): void;
-            setSelectedDataAsync(data: string, callback?: (result: AsyncResult) => void, options?: {}): void;
+            getTypeAsync(options?: any, callback?: (result: AsyncResult) => void): void;
+            setSelectedDataAsync(data: string, options?: { coercionType?: CoercionType;}, callback?: (result: AsyncResult) => void): void;
             prependAsync(data: string, callback?: (result: AsyncResult) => void, options?: {}): void;
         };
     }
@@ -1318,6 +1318,12 @@ declare module Microsoft.Office.WebExtension {
         itemType: MailboxEnums.ItemType;
 
         subject: any;
+
+        getRegExMatches(): any;
+
+        body: {
+            getTypeAsync(options?: any, callback?: (result: AsyncResult) => void): void;
+        }
     }    
 }
 declare module Microsoft.Office.WebExtension {

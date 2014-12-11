@@ -13,12 +13,9 @@ define(["require", "exports", 'App/App', 'App/Utils', "knockout"], function(requ
         'use strict';
         window.ko = ko;
         var home = new Home();
+
+        //home.initialize();
         Office.initialize = home.initialize;
-        //if (typeof (Office.context.mailbox) === 'undefined') {
-        //    home.initialize();
-        //}
-        //else {
-        //}
     });
 
     var Home = (function () {
@@ -40,6 +37,13 @@ define(["require", "exports", 'App/App', 'App/Utils', "knockout"], function(requ
         function ReadViewModel() {
             var _this = this;
             var id = Utils.Utils.getParmFromHash(window.location.href, 'id');
+            if (typeof (Office.context.mailbox) !== 'undefined') {
+                var url = Office.context.mailbox.item.getRegExMatches().Url;
+                console.log(url);
+                if (url && url.length > 0) {
+                    id = Utils.Utils.getParmFromHash(url[0], 'id');
+                }
+            }
             this.id = ko.observable(id);
             this.name = ko.observable(app.app.getName());
             this.email = ko.observable(app.app.getEmail());

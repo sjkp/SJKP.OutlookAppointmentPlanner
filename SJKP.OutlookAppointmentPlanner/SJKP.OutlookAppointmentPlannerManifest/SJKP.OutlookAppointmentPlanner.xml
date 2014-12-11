@@ -3,10 +3,14 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp">
   <Id>34bba539-e916-4060-bdba-21abc2486fb4</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>[Provider name]</ProviderName>
+  <ProviderName>SJKP</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="SJKP.OutlookAppointmentPlanner" />
-  <Description DefaultValue="SJKP.OutlookAppointmentPlanner"/>
+  <DisplayName DefaultValue="Schdo - Appointment Scheduling" />
+  <Description DefaultValue="Schdo helps you schedule and plan the best date and time for any appointment, by enabling attendees to provide feedback before setting up the appointment. "/>
+  <AppDomains>
+    <AppDomain>http://schdo.com</AppDomain>
+    <AppDomain>https://schdo.com</AppDomain>
+  </AppDomains>
   <Hosts>
     <Host Name="Mailbox" />
   </Hosts>
@@ -18,9 +22,16 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="~remoteAppUrl/AppRead/Home/Home.html"/>
+        <SourceLocation DefaultValue="~remoteAppUrl/appointment"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
+      <TabletSettings>
+        <SourceLocation DefaultValue="~remoteAppUrl/appointment" />
+        <RequestedHeight>250</RequestedHeight>
+      </TabletSettings>
+      <PhoneSettings>
+        <SourceLocation DefaultValue="~remoteAppUrl/appointment" />
+      </PhoneSettings>
     </Form>
     <Form xsi:type="ItemEdit">
       <DesktopSettings>
@@ -31,7 +42,10 @@
   <Permissions>ReadWriteItem</Permissions>
   <Rule xsi:type="RuleCollection" Mode="Or">
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit" />
-    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
+    <Rule xsi:type="RuleCollection" Mode="And" >
+      <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
+      <Rule xsi:type="ItemHasRegularExpressionMatch" RegExName="Url" RegExValue="http(s)?:\/\/(www\.)?schdo\.com(:\d{1,5})?\/appointment\?#\?id=[a-zA-Z0-9_-]{36}" PropertyName="BodyAsPlaintext" IgnoreCase="true" />
+    </Rule>
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
 </OfficeApp>

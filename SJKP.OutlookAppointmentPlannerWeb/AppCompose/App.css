@@ -11,6 +11,10 @@
     overflow: hidden; /* Disable scrollbars for header */
 }
 
+#content-header h1 {
+    margin: 0;
+}
+
 #content-main {
     background: #fff;
     position: fixed;

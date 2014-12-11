@@ -12,7 +12,7 @@ ko.bindingHandlers.date = {
         var pattern = allBindings.format || 'DD/MM/YYYY';
  
         var output = "-";
-        if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+        if (valueUnwrapped !== null && valueUnwrapped !== undefined) { //&& valueUnwrapped.length > 0
             output = moment(valueUnwrapped).format(pattern);
         }
  
@@ -20,6 +20,20 @@ ko.bindingHandlers.date = {
             $(element).val(output);
         } else {
             $(element).text(output);
+        }
+    }
+};
+ko.bindingHandlers.hasSelectedFocus = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        ko.bindingHandlers['hasfocus'].init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        ko.bindingHandlers['hasfocus'].update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+
+        var selected = ko.utils.unwrapObservable(valueAccessor());
+        if (selected) {
+            element.select();
+            element.setSelectionRange(0, element.value.length);
         }
     }
 };

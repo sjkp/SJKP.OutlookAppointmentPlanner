@@ -42,4 +42,11 @@ require(['knockout','knockout-bindings-date'], (ko) => {
     });
 });
 
+require(['knockout'], (ko) => {
+    ko.components.register('copyinput', {
+        viewModel: { require: '/App/Components/copyinput.js' },
+        template: { require: 'text!/App/Components/copyinput.html' }
+    });
+});
+
 

@@ -9,6 +9,7 @@ class SignUpViewModel {
         this.id = data.id;
         this.username = data.username;
         this.email = data.email;
+        this.description = ko.observable('');
 
         this.scheduledDates = ko.observableArray([]);
         this.attendees = ko.observableArray([]);
@@ -30,6 +31,7 @@ class SignUpViewModel {
     public scheduledDates: KnockoutObservableArray<ScheduledDateViewModel>;
     public attendees: KnockoutObservableArray<AttendeeViewModel>;
     public attendee: KnockoutObservable<AttendeeViewModel>;
+    public description: KnockoutObservable<string>;
     public updateData: any;
     private username: KnockoutObservable<string>;
     private email: KnockoutObservable<string>;
@@ -47,6 +49,7 @@ class SignUpViewModel {
                     return new ScheduledTimeslotViewModel(false, timeslot.Time, timeslot.Id);
                 })));
             });
+            self.description(data.Description || '');
             this.attendee(new AttendeeViewModel(this.username, this.email, id, null, JSON.parse(ko.toJSON(self.scheduledDates()))));
         }), $.getJSON('/api/schedule/' + id + '/attendees', (data) => {
 

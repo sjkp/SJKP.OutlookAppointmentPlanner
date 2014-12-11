@@ -1,26 +1,33 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "View";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title></title>
-    <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-1.9.1.js" type="text/javascript"></script>
 
-    <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/Office.css" rel="stylesheet" type="text/css" />
     <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
 
     <!-- To enable offline debugging using a local reference to Office.js, use:                        -->
-    <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
-    <!-- <script src="../../Scripts/Office/1.1/office.js" type="text/javascript"></script>  -->
+    <!-- <script src="/Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+    <!-- <script src="/Scripts/Office/1.1/office.js" type="text/javascript"></script>  -->
 
-    <link href="../App.css" rel="stylesheet" type="text/css" />
-    <script src="../../Scripts/require.js" type="text/javascript"></script>
+    <link href="/AppRead/App.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/require.js" type="text/javascript"></script>
     <script>
-        require(['../../App/AppConfig'], function (config) {
+        require(['../App/AppConfig'], function (config) {
             require(['AppRead/Home/Home']);
         });
     </script>
-    <link href="Home.css" rel="stylesheet" type="text/css" />
+    <link href="/AppRead/Home/Home.css" rel="stylesheet" type="text/css" />
     <link href="/Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -33,13 +40,14 @@
     <div id="content-main">
         <div class="padding">
             <div data-bind="visible: showNameDialog()">
-                <label for="email">Email:</label><input id="email" type="email" data-bind="value: email" /><br/>
+                <label for="email">Email:</label><input id="email" type="email" data-bind="value: email" /><br />
                 <label for="name">Name:</label><input id="name" type="text" data-bind="value: name" />
             </div>
             <div data-bind="visible: !showNameDialog()">
-                <signup id="signup" params="id: id, email: email, username: name"></signup>
+                <signup params="id: id, email: email, username: name"></signup>
             </div>
         </div>
-    </div>    
+    </div>
 </body>
 </html>
+

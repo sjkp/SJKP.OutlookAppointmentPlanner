@@ -15,5 +15,17 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Models
         public string Email { get; set; }
 
         public IEnumerable<ScheduledDate> SelectedDates { get; set; }
+
+        public string CreatedBy
+        {
+            get
+            {
+                return Email;
+            }
+            set
+            {
+                Email = value;
+            }
+        }
     }
 }

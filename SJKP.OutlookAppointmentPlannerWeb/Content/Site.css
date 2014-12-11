@@ -15,3 +15,21 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.text-center {
+    text-align:center;
+}
+
+#step1 textarea {
+    width:270px;
+}
+
+.pull-left
+{
+    float:left;
+}
+
+.pull-right 
+{
+    float:right;
+}

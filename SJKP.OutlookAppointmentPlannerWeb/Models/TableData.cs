@@ -18,6 +18,7 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
             base.PartitionKey = GetPartitionKey(data);
             base.RowKey = GetRowKey(data);
             this.Data = JsonConvert.SerializeObject(data);
+            this.CreatedBy = data.CreatedBy;
         }
 
         protected virtual string GetPartitionKey(T data)
@@ -39,5 +40,7 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
                 return JsonConvert.DeserializeObject<T>(Data);
             }
         }
+
+        public string CreatedBy { get; set; }   
     }
 }

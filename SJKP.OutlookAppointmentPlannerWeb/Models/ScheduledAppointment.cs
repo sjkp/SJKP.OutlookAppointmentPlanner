@@ -9,7 +9,10 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
     public class ScheduledAppointment : IId
     {
         public IEnumerable<ScheduledDate> Dates { get; set; }
+
+        public string Description { get; set; }
         public Guid? Id { get; set; }
+        public string CreatedBy { get; set; }
     }
 
     public class ScheduledDate
