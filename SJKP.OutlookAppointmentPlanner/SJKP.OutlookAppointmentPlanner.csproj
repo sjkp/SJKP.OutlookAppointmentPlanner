@@ -22,6 +22,7 @@
     <ProjectMode>MailApp</ProjectMode>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <MinimumOfficeToolsVersion>12.1</MinimumOfficeToolsVersion>
+    <ActivePublishProfile>schdo</ActivePublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,7 +44,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="SJKP.OutlookAppointmentPlannerManifest\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{31226407-43aa-4d2a-b1ab-895fea981410}</SharePointProjectItemId>
     </None>

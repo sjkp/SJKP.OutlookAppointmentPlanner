@@ -2,16 +2,17 @@
 import ScheduledDateViewModel = require('App/ViewModels/ScheduledDateViewModel');
 import AttendeeViewModel = require('App/ViewModels/AttendeeViewModel');
 import ScheduledTimeslotViewModel = require('App/ViewModels/ScheduledTimeslotViewModel');
+import ScheduledAppointmentViewModel = require('App/ViewModels/ScheduledAppointmentViewModel');
+import app = require('App/App');
 
 class SignUpViewModel {
     constructor(data) {
-        this.loading = ko.observable(true);
+        this.loading = data.loading || ko.observable(true);
         this.id = data.id;
         this.username = data.username;
         this.email = data.email;
-        this.description = ko.observable('');
 
-        this.scheduledDates = ko.observableArray([]);
+        this.scheduledAppointment = ko.observable(null);
         this.attendees = ko.observableArray([]);
         this.attendee = ko.observable(new AttendeeViewModel(this.username, this.email, data.id(), null));
         
@@ -23,16 +24,24 @@ class SignUpViewModel {
         data.email.subscribe((val) => {
             this.getData(this.id());
         });
+
+        this.canAddNewAttendee = ko.computed(() => {
+            var self = this;
+            var isNotAdded = this.attendees().filter((otherAttendee) => {
+                return self.attendee().email() == otherAttendee.email;
+            }).length == 0
+            return isNotAdded || (typeof (self.scheduledAppointment) !== 'undefined' && self.scheduledAppointment() != null && self.scheduledAppointment().createdBy == self.email());
+        }, this, { deferEvaluation: true });
     }
 
     public id: KnockoutObservable<string>;
     public loading: KnockoutObservable<boolean>;
     public name: KnockoutObservable<string>;
-    public scheduledDates: KnockoutObservableArray<ScheduledDateViewModel>;
+    public scheduledAppointment: KnockoutObservable<ScheduledAppointmentViewModel>;
     public attendees: KnockoutObservableArray<AttendeeViewModel>;
     public attendee: KnockoutObservable<AttendeeViewModel>;
-    public description: KnockoutObservable<string>;
     public updateData: any;
+    public canAddNewAttendee: any;
     private username: KnockoutObservable<string>;
     private email: KnockoutObservable<string>;
 
@@ -43,14 +52,8 @@ class SignUpViewModel {
         }
         $.when($.getJSON('/api/schedule/' + id, (data) => {
             //Load dates and timeslots from server
-            self.scheduledDates([]);
-            $.each(data.Dates, (i, o) => {
-                self.scheduledDates.push(new ScheduledDateViewModel(o.Date, o.Id, o.Timeslots.map((timeslot) => {
-                    return new ScheduledTimeslotViewModel(false, timeslot.Time, timeslot.Id);
-                })));
-            });
-            self.description(data.Description || '');
-            this.attendee(new AttendeeViewModel(this.username, this.email, id, null, JSON.parse(ko.toJSON(self.scheduledDates()))));
+            this.scheduledAppointment(new ScheduledAppointmentViewModel(data));
+            this.attendee(new AttendeeViewModel(this.username, this.email, id, null, JSON.parse(ko.toJSON(self.scheduledAppointment().dates()))));            
         }), $.getJSON('/api/schedule/' + id + '/attendees', (data) => {
 
             //Load attendees from server
@@ -65,11 +68,12 @@ class SignUpViewModel {
                 a.isEditable(attendee.Email == self.email());
                 self.attendees.push(a);
             });
+            
             })).then(() => {
                 self.loading(false);
             });
 
-    };       
+    };          
     
 
     public save = () => {
@@ -85,7 +89,11 @@ class SignUpViewModel {
                 self.attendee().isEditable(true);
                 self.attendees.push(self.attendee());
                 
-                self.attendee(new AttendeeViewModel(self.name, self.email, self.id(),null, JSON.parse(ko.toJSON(self.scheduledDates()))));
+                self.attendee(new AttendeeViewModel(self.name, self.email, self.id(), null, JSON.parse(ko.toJSON(self.scheduledAppointment().dates()))));
+                app.app.showNotification('Add done', 'Your feedback has been added');
+            },
+            error: (err) => {
+                app.app.showNotification('Add failed', 'Unable to add your feedback, please try again');
             }
         });
     };    

@@ -1,4 +1,5 @@
 ﻿import ScheduledDateViewModel = require('App/ViewModels/ScheduledDateViewModel');
+import app = require('App/App');
 
 class AttendeeViewModel {
     constructor(name: KnockoutObservable<string>, email: KnockoutObservable<string>, scheduleId : string, id? : string, selectedDates? : ScheduledDateViewModel[]) {
@@ -12,7 +13,7 @@ class AttendeeViewModel {
 
     public selectedDates: KnockoutObservableArray<ScheduledDateViewModel>;
     public name: KnockoutObservable<string>;
-    public email: KnockoutObservable<string>;
+    public email: any;
     public scheduleId: KnockoutObservable<string>;
     public id: KnockoutObservable<string>;
     public isEditable: KnockoutObservable<boolean>;
@@ -21,10 +22,16 @@ class AttendeeViewModel {
         var self = this;
                         
         $.ajax({
-            url: '/api/attendee/'+self.id(),
+            url: '/api/attendee/' + self.id(),
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify(ko.toJS(self))         
+            data: JSON.stringify(ko.toJS(self)),
+            success: (res) => {
+                app.app.showNotification('Save done', 'Your feedback has been changed');
+            },  
+            error: (err) => {
+                app.app.showNotification('Save failed', 'Unable to save your feedback, please try again');
+            }                   
         });
     };
 }

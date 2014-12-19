@@ -49,4 +49,10 @@ require(['knockout'], (ko) => {
     });
 });
 
+require(['knockout'], (ko) => {
+    ko.components.register('spinner', {
+        viewModel: { require: '/App/Components/spinner.js' },
+        template: { require: 'text!/App/Components/spinner.html' }
+    });
+});
 

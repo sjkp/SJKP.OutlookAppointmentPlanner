@@ -9,7 +9,7 @@ ko.bindingHandlers.date = {
         var valueUnwrapped = ko.utils.unwrapObservable(value);
  
         // Date formats: http://momentjs.com/docs/#/displaying/format/
-        var pattern = allBindings.format || 'DD/MM/YYYY';
+        var pattern = allBindings.format || 'ddd DD/MM/YYYY';
  
         var output = "-";
         if (valueUnwrapped !== null && valueUnwrapped !== undefined) { //&& valueUnwrapped.length > 0
@@ -35,6 +35,17 @@ ko.bindingHandlers.hasSelectedFocus = {
             element.select();
             element.setSelectionRange(0, element.value.length);
         }
+    }
+};
+
+ko.bindingHandlers.hidden = {
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        var isCurrentlyInvisible = (element.style.display == "none");
+        if (value && !isCurrentlyInvisible)
+            element.style.display = "none";
+        else if ((!value) && isCurrentlyInvisible)
+            element.style.display = "";
     }
 };
 });

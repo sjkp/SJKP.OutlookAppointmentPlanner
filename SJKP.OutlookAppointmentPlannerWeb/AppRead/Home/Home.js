@@ -20,6 +20,7 @@ define(["require", "exports", 'App/App', 'App/Utils', "knockout"], function(requ
 
     var Home = (function () {
         function Home() {
+            //ko.applyBindings(new ReadViewModel());
         }
         // The initialize function must be run each time a new page is loaded
         Home.prototype.initialize = function (reason) {
@@ -47,10 +48,12 @@ define(["require", "exports", 'App/App', 'App/Utils', "knockout"], function(requ
             this.id = ko.observable(id);
             this.name = ko.observable(app.app.getName());
             this.email = ko.observable(app.app.getEmail());
+            this.loading = ko.observable(true);
             this.showNameDialog = ko.computed(function () {
                 if (_this.name().length > 0 && _this.email().length > 0) {
                     return false;
                 }
+                _this.loading(false);
                 return true;
             }, this);
         }

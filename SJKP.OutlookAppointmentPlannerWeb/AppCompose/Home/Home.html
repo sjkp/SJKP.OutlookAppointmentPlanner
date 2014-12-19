@@ -17,7 +17,7 @@
     <script src="../../Scripts/require.js" type="text/javascript"></script>
     <script>
         require(['../../App/AppConfig'], function (config) {
-            require(['AppCompose/Home/Home']);
+            require(['AppCompose/Home/Compose']);
         });
     </script>
     <link href="/Content/Site.css" rel="stylesheet" type="text/css" />
@@ -32,9 +32,9 @@
             <i>Intelligent appointment scheduling</i>
         </div>
     </div>
-    <div id="content-main">
-        <div class="padding">            
-            <div id="step1" data-bind="visible: step() == 1">
+    <div style="display:none;" id="content-main" data-bind="visible: true">
+        <div class="padding">
+            <div id=" step1" data-bind="visible: step() == 1">
                 <h2>Schedule new appointment</h2>
                 <p>Write a short description for the appointment. Select the possible dates for the appointment, that you want feedback about.</p>
                 <textarea data-bind="value: description" placeholder="Description" maxlength="255"></textarea>
@@ -59,8 +59,10 @@
                             <th data-bind="text: $root.timeslotText($index)"></th>
                             <!-- /ko -->
                             <!-- /ko -->
-                            <th><input type="button" data-bind="click: addTimeslot" value="+" title="Add timeslot"/>
-                                <input type="button" data-bind="click: removeTimeslot" value="-" title="Remove timeslot" /></th>
+                            <th>
+                                <input type="button" data-bind="click: addTimeslot" value="+" title="Add timeslot" />
+                                <input type="button" data-bind="click: removeTimeslot" value="-" title="Remove timeslot" />
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,7 +90,7 @@
                         <div>
                             <input type="button" data-bind="click: setBodyText" title="Insert email template text" value="Insert template text" />
                         </div>
-                    </p>                    
+                    </p>
                 </div>
             </div>
             <div id="signup-step" data-bind="visible: step() == 4">

@@ -18,7 +18,7 @@ class ScheduledDateViewModel {
 
     public removeTimeslot = () => {
         this.timeslots.pop();
-    }
+    }    
 };
 
 export = ScheduledDateViewModel;

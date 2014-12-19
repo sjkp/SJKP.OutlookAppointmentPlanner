@@ -13,5 +13,10 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
     }
 }

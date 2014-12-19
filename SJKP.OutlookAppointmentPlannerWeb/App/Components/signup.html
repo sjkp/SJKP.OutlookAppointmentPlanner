@@ -1,20 +1,26 @@
 ﻿<div class="signup-component">
+    <!-- ko with: scheduledAppointment -->
     <p data-bind="text: description"></p>
+    <!-- /ko -->
     <table>
         <thead>
             <tr>
                 <th></th>
-                <!-- ko foreach: scheduledDates-->
+                <!-- ko with: scheduledAppointment -->
+                <!-- ko foreach: dates -->
                 <th data-bind="date: date, attr: {colspan: timeslots().length}"></th>
+                <!-- /ko -->
                 <!-- /ko -->
                 <th></th>
             </tr>
             <tr>
                 <th></th>
-                <!-- ko foreach: scheduledDates-->
+                <!-- ko with: scheduledAppointment -->
+                <!-- ko foreach: dates -->
                         <!-- ko foreach: timeslots -->
                         <th data-bind="text: time"></th>
                         <!-- /ko -->          
+                <!-- /ko -->
                 <!-- /ko -->
                 <th></th>
             </tr>
@@ -33,8 +39,8 @@
                 <td><input type="button" data-bind="click: update, visible: isEditable()" value="Save"/></td>
             </tr>
             <!-- /ko -->
-            <tr data-bind="with: attendee">
-                <td><input data-bind="value: name" /></td>
+            <tr data-bind="with: attendee, visible: canAddNewAttendee()">
+                <td><input data-bind="value: name" placeholder="Write your name"/></td>
                 <!-- ko foreach: selectedDates-->
                 <!-- ko foreach: timeslots -->
                 <td class="text-center">
@@ -46,5 +52,31 @@
             </tr>            
         </tbody>
     </table>    
-    
+    <div style="display:none;" id="timedaytable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <!-- ko with: scheduledAppointment -->
+                    <!-- ko foreach: dates()[0].timeslots -->
+                    <th>Time</th>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- ko with: scheduledAppointment -->
+                <!-- ko foreach: dates -->
+                <tr>
+                    <td data-bind="date: date"></td>
+                    <!-- ko foreach: timeslots -->
+                    <td data-bind="text: time"></td>
+                    <!-- /ko -->
+                </tr>
+                <!-- /ko-->
+                <!-- /ko-->
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -7,7 +7,6 @@ import app = require('App/App');
 import ScheduledDateViewModel = require('App/ViewModels/ScheduledDateViewModel');
 import Utils = require('App/Utils');
 var Office = Microsoft.Office.WebExtension;
-
 require(
     [
         'jquery',
@@ -17,16 +16,23 @@ require(
     ($, ko) => {
         'use strict';
         (<any>window).ko = ko;
-        var home = new Home();
-        //home.initialize();
+        var home = new Read();
         Office.initialize = home.initialize;
-        
+        try {
+            if (!(<any>(window.external)).GetContext) {
+                console.log('Not office context');
+                (<any>window).Office.initialize();
+            }
+        } catch (e) {
+            // when in office context unable to access external.
+        }       
     }
     );
 
-export class Home {
+export class Read {
 
     constructor() {
+        //ko.applyBindings(new ReadViewModel());
     }
 
 
@@ -52,20 +58,26 @@ export class ReadViewModel {
         }
         this.id = ko.observable(id);
         this.name = ko.observable(app.app.getName());
-        this.email = ko.observable(app.app.getEmail());   
+        this.email = ko.observable(app.app.getEmail()); 
+        this.loading = ko.observable(true);  
+        this.okClicked = ko.observable(false);
         this.showNameDialog = ko.computed(() => {
             if (this.name().length > 0 && this.email().length > 0) {
                 return false;
             }
-            return true;
+            this.loading(false);
+            return !this.okClicked();            
         }, this);       
     }
 
     public id: KnockoutObservable<string>;
     public email: KnockoutObservable<string>;
     public name: KnockoutObservable<string>;
-
+    public loading: KnockoutObservable<boolean>;
+    public okClicked: KnockoutObservable<boolean>;
     public showNameDialog: any;
 
-    
+    public ok = () => {
+        this.okClicked(true);
+    };
 };

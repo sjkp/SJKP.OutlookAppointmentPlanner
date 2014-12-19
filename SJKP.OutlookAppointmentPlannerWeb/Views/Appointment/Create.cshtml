@@ -1,0 +1,124 @@
+﻿@{ 
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Create";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title></title>
+    <script src="/Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+
+    <link href="/Content/Office.css" rel="stylesheet" type="text/css" />
+    <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
+
+    <!-- To enable offline debugging using a local reference to Office.js, use:                        -->
+    <!--  <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+    <!--  <script src="../../Scripts/Office/1.1/office.js" type="text/javascript"></script>  -->
+
+    <link href="/AppCompose/App.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/require.js" type="text/javascript"></script>
+    <script>
+        require(['../App/AppConfig'], function (config) {
+            require(['AppCompose/Home/Compose']);
+        });
+    </script>
+    
+    <link href="~/AppCompose/Home/Home.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/jquery-ui.theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/Site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="content-header">
+        <div class="padding">
+            <h1>Schdo.com</h1>
+            <i>Intelligent appointment scheduling</i>
+        </div>
+    </div>
+    <div style="display:none;" id="content-main" data-bind="visible: true">
+        <div class="padding">
+            <div id="step1" data-bind="visible: step() == 1">
+                <h2>Schedule new appointment</h2>
+                <p>Write a short description for the appointment. Select the possible dates for the appointment, that you want feedback about.</p>
+                <textarea data-bind="value: description" placeholder="Description" maxlength="255"></textarea>
+                <div id="datepicker" data-bind="datepicker: {value: date, onSelect: dateClicked}"></div>
+                <h3>Selected dates</h3>
+                <table data-bind="foreach: scheduledDates">
+                    <tr>
+                        <td><span data-bind="date: date"></span></td>
+                        <td><a href="javascript:void();" data-bind="click: $root.removeDate" title="Remove the selected date">X</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="timepicker" data-bind="visible: step() == 2">
+                <h2>Select meeting time options</h2>
+                <p>Write the time span for the appointment on each date. If you need several time options per day use the "+" button.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <!-- ko with: scheduledDates()[0] -->
+                            <!-- ko foreach: timeslots -->
+                            <th data-bind="text: $root.timeslotText($index)"></th>
+                            <!-- /ko -->
+                            <!-- /ko -->
+                            <th>
+                                <input type="button" data-bind="click: addTimeslot" value="+" title="Add timeslot" />
+                                <input type="button" data-bind="click: removeTimeslot" value="-" title="Remove timeslot" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: scheduledDates -->
+                        <tr>
+                            <td data-bind="date: date"></td>
+                            <!-- ko foreach: timeslots -->
+                            <td><input data-bind="value: time" placeholder="Write time, e.g. 10-12" /></td>
+                            <!-- /ko -->
+                        </tr>
+                        <!-- /ko -->
+                        <!-- ko with: scheduledDates()[0] -->
+                        <tr>
+                            <td></td>
+                            <!-- ko foreach: timeslots -->
+                            <td><a href="javascript:void();" data-bind="click: $root.copytime.bind($root, $index)" title="Copy the time from the first row to all dates.">Copy time</a></td>
+                            <!-- /ko -->
+                        </tr> 
+                        <!-- /ko -->                       
+                    </tbody>
+                </table>
+            </div>
+            <div id="message" data-bind="visible: step() == 3">
+                <span data-bind="visible: loading">Creating Appointment...please wait</span>
+                <div data-bind="visible: !loading()">
+                    <h2>Prepare email</h2>
+                    <p>
+                        Send the following url to the people who you want give feedback on times for the appointment
+                        <copyinput params="content: url"></copyinput>
+                    </p>
+                    <p>
+                        If you don't want to write the email yourself you can use our template.
+                        <div>
+                            <input type="button" data-bind="click: setBodyText" title="Insert email template text" value="Insert template text" />
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <div id="signup-step" data-bind="visible: step() == 4">
+                <h2>Select prefered date and time</h2>
+                <p>Don't forget to add your own prefered date and time for the appointment.</p>
+                <signup id="signup" params="id: id, username: name, email: email"></signup>
+            </div>
+            <div id="buttons">
+                <button class="pull-left" data-bind="click: prev, visible: step() > 1">Back</button>
+                <button class="pull-right" data-bind="click: next, visible: step() < 4, text: nextText(), enable: scheduledDates().length > 0"></button>
+                <button class="pull-right" data-bind="click: reset, visible: step() == 4">Start over</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

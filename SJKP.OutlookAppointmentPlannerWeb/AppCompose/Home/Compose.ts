@@ -4,6 +4,7 @@
 
 import app = require('App/App');
 import ScheduledDateViewModel = require('App/ViewModels/ScheduledDateViewModel');
+import ScheduledTimeslotViewModel = require('App/ViewModels/ScheduledTimeslotViewModel');
 import Utils = require('App/Utils');
 var Office = Microsoft.Office.WebExtension;
 
@@ -16,19 +17,20 @@ require(
     ($, ko) => {
         'use strict';
         (<any>window).ko = ko;
-        var home = new Home();
+        var home = new Compose();
         Office.initialize = home.initialize;
-        //if (typeof (Office.context.mailbox) === 'undefined') {
-        //    //Debug mode
-            //home.initialize();
-        //}
-        //else {
-            
-        //}
+        try {
+            if (!(<any>(window.external)).GetContext) {
+                console.log('Not office context');
+                (<any>window).Office.initialize();
+            }
+        } catch (e) {
+            // when in office context unable to access external.
+        }       
     }
     ); 
 
-export class Home {
+export class Compose {
 
     constructor() {
     }
@@ -38,13 +40,13 @@ export class Home {
     public initialize(reason?) {
         $(document).ready(() => {
             app.app.initialize();
-            ko.applyBindings(new HomeViewModel());
+            ko.applyBindings(new ComposeViewModel());
         });
     }
 };
 
 
-export class HomeViewModel {
+export class ComposeViewModel {
     constructor() {
         this.date = ko.observable(new Date());
         this.scheduledDates = ko.observableArray([]);
@@ -96,7 +98,8 @@ export class HomeViewModel {
         }).length == 0) {
             this.scheduledDates.valueWillMutate();
             console.log(self.date());
-            self.scheduledDates.push(new ScheduledDateViewModel(self.date()));
+            // Dynamically create the array of Timespans, so that if the users browse back and forth between the calendar and the timespan page, new dates will have the correct number of times. 
+            self.scheduledDates.push(new ScheduledDateViewModel(self.date(), '', Array.apply(null, { length: self.scheduledDates().length > 0 ? self.scheduledDates()[0].timeslots().length :1 }).map((o) => { return new ScheduledTimeslotViewModel(); })));
             this.scheduledDates().sort((a: ScheduledDateViewModel, b: ScheduledDateViewModel) => { return a.date().getTime() - b.date().getTime(); });
             this.scheduledDates.valueHasMutated();
         }
@@ -151,7 +154,7 @@ export class HomeViewModel {
             data: JSON.stringify(data)
         }).done((res) => {
                 self.loading(false);
-                self.url(Utils.Utils.getBaseUrl() + '/appointment?#?id=' + res);
+                self.url("http://schdo.com" + '/appointment?#?id=' + res);
                 self.id(res);
             });
     };
@@ -159,12 +162,13 @@ export class HomeViewModel {
     public setBodyText = () => {
         var self = this;
         Office.context.mailbox.item.body.getTypeAsync(function (type) {
-            var bodyText = '<strong>' + app.app.getName() + '</strong> wants you to provide feedback about which time that suits you best for the appointment<br>' + self.description()+'<br>' + $('#signup').html();
+            var bodyText = '<strong>' + app.app.getName() + '</strong> wants you to provide feedback about which time that suits you best for the appointment<br>' + self.description() + '<br>' + $('#timedaytable').html();
             bodyText += '<br/><br/>Install the Schdo App for Outlook to provide your answer directly in Outlook, or visit <a href="' + self.url() + '">' + self.url() + '</a> to use our website';
             var bodyType = Office.CoercionType.Html;
             if ((!type.value || type.value.toLowerCase() === "text")) {
                 bodyType = Office.CoercionType.Text;
-                bodyText = 'none html';
+                bodyText = app.app.getName() + ' wants you to provide feedback about which time that suits you best for the appointment\r\n' + self.description() + '\r\n'
+                bodyText += '\r\nInstall the Schdo App for Outlook to provide your answer directly in Outlook, or visit ' + self.url() + ' to use our website';
             }
             var message = Office.cast.item.toMessageCompose(Office.context.mailbox.item);
             message.body.setSelectedDataAsync(bodyText, { coercionType: bodyType }, function (asyncResult) {
@@ -175,6 +179,19 @@ export class HomeViewModel {
         });       
     };
 
+    public copytime = (index, data, event ) => {       
+        var self = this;
+        var timetoCopy;
+        $.each(this.scheduledDates(), (i, date) => {
+            if (i == 0) {
+                timetoCopy = date.timeslots()[index()].time();
+            }
+            else {
+                if (index() < date.timeslots().length)
+                    date.timeslots()[index()].time(timetoCopy);
+            }
+        });
+    };
 
     public setSubject = (subject) => {
         Office.cast.item.toItemCompose(Office.context.mailbox.item).subject.setAsync(subject);
