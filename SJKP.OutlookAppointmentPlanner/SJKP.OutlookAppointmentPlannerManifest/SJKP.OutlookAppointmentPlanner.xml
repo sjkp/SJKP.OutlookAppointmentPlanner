@@ -55,7 +55,7 @@
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit" />
     <Rule xsi:type="RuleCollection" Mode="And" >
       <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
-      <Rule xsi:type="ItemHasRegularExpressionMatch" RegExName="Url" RegExValue="http(s)?:\/\/(www\.)?schdo\.(azurewebsites.)?(com|net)(:\d{1,5})?\/appointment\?#\?id=[a-zA-Z0-9_-]{36}" PropertyName="BodyAsPlaintext" IgnoreCase="true" />
+      <Rule xsi:type="ItemHasRegularExpressionMatch" RegExName="Url" RegExValue="http(s)?:\/\/(www\.)?schdo\.(azurewebsites.)?(com|net)(:\d{1,5})?\/appointment\?#\?id=[a-zA-Z0-9_-]{10}" PropertyName="BodyAsPlaintext" IgnoreCase="true" />
     </Rule>
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>

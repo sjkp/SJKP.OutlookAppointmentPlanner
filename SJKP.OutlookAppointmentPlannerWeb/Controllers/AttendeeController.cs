@@ -20,18 +20,18 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Controllers
 
         }
 
-        protected TableData<Attendee> GetFirstOrDefault(Guid scheduleId, Guid attendeeId)
+        protected TableData<Attendee> GetFirstOrDefault(string scheduleId, string attendeeId)
         {
             TableQuery<TableData<Attendee>> query = new TableQuery<TableData<Attendee>>().Where(
-               TableQuery.CombineFilters(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, scheduleId.ToString()),
-               TableOperators.And, TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, attendeeId.ToString())));
+               TableQuery.CombineFilters(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal,scheduleId),
+               TableOperators.And, TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, attendeeId)));
             return table.ExecuteQuery(query).FirstOrDefault();
         }
 
-        protected IEnumerable<Attendee> GetAllFormSchedule(Guid scheduleId)
+        protected IEnumerable<Attendee> GetAllFormSchedule(string scheduleId)
         {
             TableQuery<TableData<Attendee>> query = new TableQuery<TableData<Attendee>>().Where(
-               TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, scheduleId.ToString()));
+               TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, scheduleId));
             return table.ExecuteQuery(query).Select(s => s.Entity);
         }
 
@@ -44,15 +44,15 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Controllers
 
         [Route("api/schedule/{scheduleId}/attendees")]
         [HttpGet]
-        public HttpResponseMessage Get(Guid scheduleId)
+        public HttpResponseMessage Get(string scheduleId)
         {            
             return Request.CreateResponse(GetAllFormSchedule(scheduleId));
         }
 
         // POST: api/Attendee
-        public async Task<Guid> Post([FromBody]Attendee value)
+        public async Task<string> Post([FromBody]Attendee value)
         {
-            value.Id = Guid.NewGuid();            
+            value.Id = Guid.NewGuid().ToString();          
             foreach (var s in value.SelectedDates)
             {
                 s.Id = Guid.NewGuid();
@@ -64,13 +64,13 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Controllers
 
             await table.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation.Insert(new AttendeeData(value)));
 
-            return value.Id.Value;
+            return value.Id;
         }
 
         // PUT: api/Attendee/5
-        public async Task<HttpResponseMessage> Put(Guid id, [FromBody]Attendee value)
+        public async Task<HttpResponseMessage> Put(string id, [FromBody]Attendee value)
         {            
-            var existing = GetFirstOrDefault(value.ScheduleId.Value, id);
+            var existing = GetFirstOrDefault(value.ScheduleId, id);
             if (existing == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -83,9 +83,9 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Controllers
         }
 
         // DELETE: api/Schedule/5
-        public override async Task Delete(Guid id)
+        public override async Task Delete(string id)
         {
-            await base.Delete(id);
+            //await base.Delete(id);
         }
     }
 }

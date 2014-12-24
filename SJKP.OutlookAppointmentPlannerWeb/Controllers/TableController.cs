@@ -28,15 +28,15 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
             return table.ExecuteQuery(query).Select(s => s.Entity);
         }
 
-        protected virtual TableData<T> GetFirstOrDefault(Guid id)
+        protected virtual TableData<T> GetFirstOrDefault(string id)
         {
             TableQuery<TableData<T>> query = new TableQuery<TableData<T>>().Where(
                 TableQuery.CombineFilters(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, typeof(T).Name), 
-                TableOperators.And, TableQuery.GenerateFilterCondition("RowKey",QueryComparisons.Equal,id.ToString())));
+                TableOperators.And, TableQuery.GenerateFilterCondition("RowKey",QueryComparisons.Equal,id)));
             return table.ExecuteQuery(query).FirstOrDefault();
         }
 
-        public virtual async Task Delete(Guid id)
+        public virtual async Task Delete(string id)
         {
             await table.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation.Delete(new TableData<T>(new T() {Id = id})));
         }

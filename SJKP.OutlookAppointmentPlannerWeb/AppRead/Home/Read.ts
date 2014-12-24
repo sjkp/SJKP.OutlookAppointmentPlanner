@@ -18,14 +18,15 @@ require(
         (<any>window).ko = ko;
         var home = new Read();
         Office.initialize = home.initialize;
-        try {
-            if (!(<any>(window.external)).GetContext) {
-                console.log('Not office context');
-                (<any>window).Office.initialize();
+        setTimeout(() => {
+            try {
+                if (!(<any>(window.external)).GetContext) {
+                    (<any>window).Office.initialize();
+                }
+            } catch (e) {
+                // when in office context unable to access external.
             }
-        } catch (e) {
-            // when in office context unable to access external.
-        }       
+        });   
     }
     );
 
@@ -51,7 +52,6 @@ export class ReadViewModel {
         var id = Utils.Utils.getParmFromHash(window.location.href, 'id');
         if (typeof (Office.context.mailbox) !== 'undefined') {
             var url = Office.context.mailbox.item.getRegExMatches().Url;
-            console.log(url);
             if (url && url.length > 0) {
                 id = Utils.Utils.getParmFromHash(url[0], 'id');
             }

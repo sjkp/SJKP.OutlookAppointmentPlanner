@@ -28,7 +28,7 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
 
         protected virtual string GetRowKey(T data)
         {
-            return data.Id.Value.ToString();
+            return data.Id;
         }
 
         public string Data { get; set; }

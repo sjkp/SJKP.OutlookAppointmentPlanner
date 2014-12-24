@@ -1,1 +1,3 @@
-﻿<div class="spinner" data-bind="visible: loading()" style="background-position: center; width: 100%; height: 100%; background-image: url('/Images/progress.gif'); background-repeat: no-repeat;position: absolute;background-color: white; z-index:99;"></div>
+﻿<div class="spinner" data-bind="visible: loading()" style="background-position: center; width: 100%; height: 100%; background-image: url('/Images/progress.gif'); background-repeat: no-repeat;position: absolute;background-color: white; z-index:99;">
+    <span class="spinner-text" data-bind="text: loadingText, visible: loadingText().length > 0"></span>
+</div>

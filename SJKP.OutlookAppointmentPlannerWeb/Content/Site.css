@@ -28,3 +28,44 @@ textarea {
 {
     float:right;
 }
+
+.arrow_box {
+	position: relative;
+	background: #fff;
+    width:200px;
+	border: 1px solid #ccc;
+}
+.arrow_box:after, .arrow_box:before {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(43, 148, 222, 0);
+	border-bottom-color: #fff;
+	border-width: 5px;
+	margin-left: -5px;
+}
+.arrow_box:before {
+	border-color: rgba(204, 204, 204, 0);
+	border-bottom-color: #ccc;
+	border-width: 6px;
+	margin-left: -6px;
+}
+
+
+.spinner-text {
+    z-index: 100;
+    position: absolute;
+    width: 100%;
+    vertical-align: middle;
+    text-align: center;
+    top: 50%;
+    padding-top: 20px;
+}

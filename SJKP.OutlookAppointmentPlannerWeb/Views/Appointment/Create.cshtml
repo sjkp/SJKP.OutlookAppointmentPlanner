@@ -33,13 +33,14 @@
     <link href="/Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div id="content-header">
+    
+    <div id="content-header">        
         <div class="padding">
             <h1>Schdo.com</h1>
             <i>Intelligent appointment scheduling</i>
         </div>
     </div>
-    <div style="display:none;" id="content-main" data-bind="visible: true">
+    <div style="display:none;" id="content-main" data-bind="visible: true">        
         <div class="padding">
             <div id="step1" data-bind="visible: step() == 1">
                 <h2>Schedule new appointment</h2>
@@ -93,7 +94,7 @@
                 </table>
             </div>
             <div id="message" data-bind="visible: step() == 3">
-                <span data-bind="visible: loading">Creating Appointment...please wait</span>
+                <spinner params="loading: loading, loadingText: 'Creating Appointment...please wait'"></spinner>
                 <div data-bind="visible: !loading()">
                     <h2>Prepare email</h2>
                     <p>

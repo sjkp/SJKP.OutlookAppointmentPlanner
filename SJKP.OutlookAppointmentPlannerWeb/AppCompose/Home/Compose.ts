@@ -21,7 +21,6 @@ require(
         Office.initialize = home.initialize;
         try {
             if (!(<any>(window.external)).GetContext) {
-                console.log('Not office context');
                 (<any>window).Office.initialize();
             }
         } catch (e) {
@@ -97,7 +96,6 @@ export class ComposeViewModel {
             return val.date().toDateString() == self.date().toDateString();
         }).length == 0) {
             this.scheduledDates.valueWillMutate();
-            console.log(self.date());
             // Dynamically create the array of Timespans, so that if the users browse back and forth between the calendar and the timespan page, new dates will have the correct number of times. 
             self.scheduledDates.push(new ScheduledDateViewModel(self.date(), '', Array.apply(null, { length: self.scheduledDates().length > 0 ? self.scheduledDates()[0].timeslots().length :1 }).map((o) => { return new ScheduledTimeslotViewModel(); })));
             this.scheduledDates().sort((a: ScheduledDateViewModel, b: ScheduledDateViewModel) => { return a.date().getTime() - b.date().getTime(); });

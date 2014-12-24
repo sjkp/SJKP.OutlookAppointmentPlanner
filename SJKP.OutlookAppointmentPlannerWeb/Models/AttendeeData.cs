@@ -14,7 +14,7 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Models
         }
         protected override string GetPartitionKey(Attendee data)
         {
-            return data.ScheduleId.Value.ToString();
+            return data.ScheduleId;
         }
     }
 }

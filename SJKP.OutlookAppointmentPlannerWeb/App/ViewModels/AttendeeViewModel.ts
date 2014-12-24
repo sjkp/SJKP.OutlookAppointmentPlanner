@@ -9,6 +9,7 @@ class AttendeeViewModel {
         this.scheduleId = ko.observable(scheduleId);
         this.id = ko.observable(id || '');   
         this.isEditable = ko.observable(false);
+        
     }
 
     public selectedDates: KnockoutObservableArray<ScheduledDateViewModel>;
@@ -17,22 +18,20 @@ class AttendeeViewModel {
     public scheduleId: KnockoutObservable<string>;
     public id: KnockoutObservable<string>;
     public isEditable: KnockoutObservable<boolean>;
-
     public update = (data) => {
-        var self = this;
-                        
         $.ajax({
-            url: '/api/attendee/' + self.id(),
+            url: '/api/attendee/' + data.id(),
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify(ko.toJS(self)),
+            data: JSON.stringify(ko.toJS(data)),
             success: (res) => {
                 app.app.showNotification('Save done', 'Your feedback has been changed');
-            },  
+            },
             error: (err) => {
                 app.app.showNotification('Save failed', 'Unable to save your feedback, please try again');
-            }                   
+            }
         });
     };
+   
 }
 export = AttendeeViewModel;

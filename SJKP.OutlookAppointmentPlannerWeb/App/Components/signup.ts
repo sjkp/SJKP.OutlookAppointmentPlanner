@@ -53,24 +53,27 @@ class SignUpViewModel {
         $.when($.getJSON('/api/schedule/' + id, (data) => {
             //Load dates and timeslots from server
             this.scheduledAppointment(new ScheduledAppointmentViewModel(data));
-            this.attendee(new AttendeeViewModel(this.username, this.email, id, null, JSON.parse(ko.toJSON(self.scheduledAppointment().dates()))));            
+            this.attendee(new AttendeeViewModel(this.username, this.email, id, null, JSON.parse(ko.toJSON(self.scheduledAppointment().dates()))));
         }), $.getJSON('/api/schedule/' + id + '/attendees', (data) => {
 
-            //Load attendees from server
-            self.attendees([]);
-            $.each(data, (i, attendee) => {
-                var a = new AttendeeViewModel(attendee.Name, attendee.Email, attendee.ScheduleId, attendee.Id, attendee.SelectedDates.map((selectedDate) => {
+                //Load attendees from server
+                self.attendees([]);
+                $.each(data, (i, attendee) => {
+                    var a = new AttendeeViewModel(attendee.Name, attendee.Email, attendee.ScheduleId, attendee.Id, attendee.SelectedDates.map((selectedDate) => {
 
-                    return new ScheduledDateViewModel(selectedDate.Date, selectedDate.Id, selectedDate.Timeslots.map((timeslot) => {
-                        return new ScheduledTimeslotViewModel(timeslot.Selected, timeslot.Time, timeslot.Id);
+                        return new ScheduledDateViewModel(selectedDate.Date, selectedDate.Id, selectedDate.Timeslots.map((timeslot) => {
+                            return new ScheduledTimeslotViewModel(timeslot.Selected, timeslot.Time, timeslot.Id);
+                        }));
                     }));
-                }));
-                a.isEditable(attendee.Email == self.email());
-                self.attendees.push(a);
-            });
-            
+                    a.isEditable(attendee.Email == self.email());
+                    self.attendees.push(a);
+                });
+
             })).then(() => {
                 self.loading(false);
+            }).fail((err) => {
+                self.loading(false);
+                app.app.showNotification("Error loading data", "Unable to find appointment with id: " + id);
             });
 
     };          
@@ -84,11 +87,10 @@ class SignUpViewModel {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(ko.toJS(this.attendee)),
-            success: (res) => {
-                console.log('done');
+            success: (res) => {                
                 self.attendee().isEditable(true);
+                self.attendee().id(res);
                 self.attendees.push(self.attendee());
-                
                 self.attendee(new AttendeeViewModel(self.name, self.email, self.id(), null, JSON.parse(ko.toJSON(self.scheduledAppointment().dates()))));
                 app.app.showNotification('Add done', 'Your feedback has been added');
             },

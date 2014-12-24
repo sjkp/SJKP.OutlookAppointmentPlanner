@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using SJKP.OutlookAppoinmentPlannerBackend.Models;
+using SJKP.ShortCode;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -26,7 +27,7 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
         }
 
         // GET: api/Schedule/5
-        public HttpResponseMessage Get(Guid id)
+        public HttpResponseMessage Get(string id)
         {
             var entity = GetFirstOrDefault(id);
             if (entity == null)
@@ -39,11 +40,11 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
         
 
         // POST: api/Schedule
-        public async Task<Guid> Post([FromBody]ScheduledAppointment value)
+        public async Task<string> Post([FromBody]ScheduledAppointment value)
         {
             
 
-            value.Id = Guid.NewGuid();
+            value.Id = ShortCode.ShortCode.NewShortCode();
             foreach(var s in value.Dates)
             {
                 s.Id = Guid.NewGuid();
@@ -55,11 +56,11 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
 
             await table.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation.Insert(new TableData<ScheduledAppointment>(value)));
 
-            return value.Id.Value;
+            return value.Id;
         }
 
         // PUT: api/Schedule/5
-        public async Task<HttpResponseMessage> Put(Guid id, [FromBody]ScheduledAppointment value)
+        public async Task<HttpResponseMessage> Put(string id, [FromBody]ScheduledAppointment value)
         {
             
             var existing = GetFirstOrDefault(id);
@@ -75,9 +76,9 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
         }
 
         // DELETE: api/Schedule/5
-        public override async Task Delete(Guid id)
+        public override async Task Delete(string id)
         {
-            await base.Delete(id);
+            //await base.Delete(id);
         }
     }
 }

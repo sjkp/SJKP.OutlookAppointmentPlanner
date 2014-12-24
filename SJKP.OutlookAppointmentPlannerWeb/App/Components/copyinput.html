@@ -1,3 +1,4 @@
 ﻿<div>
     <input data-bind="value: content, hasSelectedFocus: textSelected" readonly="readonly" /><input type="button" data-bind="click: selectText" value="Copy"/>         
+    <div data-bind="visible: textSelected" class="arrow_box">Press ctrl+c to copy url to clipboard</div>
 </div>

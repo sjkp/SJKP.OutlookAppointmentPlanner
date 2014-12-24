@@ -11,7 +11,7 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
         public IEnumerable<ScheduledDate> Dates { get; set; }
 
         public string Description { get; set; }
-        public Guid? Id { get; set; }
+        public string Id { get; set; }
         public string CreatedBy { get; set; }
     }
 
