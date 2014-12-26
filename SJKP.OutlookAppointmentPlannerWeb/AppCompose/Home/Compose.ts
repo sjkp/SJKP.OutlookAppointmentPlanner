@@ -19,13 +19,9 @@ require(
         (<any>window).ko = ko;
         var home = new Compose();
         Office.initialize = home.initialize;
-        try {
-            if (!(<any>(window.external)).GetContext) {
-                (<any>window).Office.initialize();
-            }
-        } catch (e) {
-            // when in office context unable to access external.
-        }       
+        if (Utils.Utils.getParmFromHash(window.location.href, "debug") !== "") {
+            home.initialize();
+        }  
     }
     ); 
 
@@ -37,10 +33,8 @@ export class Compose {
 
     // The initialize function must be run each time a new page is loaded
     public initialize(reason?) {
-        $(document).ready(() => {
             app.app.initialize();
             ko.applyBindings(new ComposeViewModel());
-        });
     }
 };
 

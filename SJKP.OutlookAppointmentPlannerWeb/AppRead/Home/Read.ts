@@ -18,15 +18,9 @@ require(
         (<any>window).ko = ko;
         var home = new Read();
         Office.initialize = home.initialize;
-        setTimeout(() => {
-            try {
-                if (!(<any>(window.external)).GetContext) {
-                    (<any>window).Office.initialize();
-                }
-            } catch (e) {
-                // when in office context unable to access external.
-            }
-        });   
+        if (Utils.Utils.getParmFromHash(window.location.href, "id") !== "") {
+            (<any>window).Office.initialize();
+        } 
     }
     );
 
@@ -39,21 +33,21 @@ export class Read {
 
     // The initialize function must be run each time a new page is loaded
     public initialize(reason?) {
-        $(document).ready(() => {
             app.app.initialize();
             ko.applyBindings(new ReadViewModel());
-        });
     }    
 };
 
 export class ReadViewModel {
 
     constructor() {
+        var openedFromOutlook = false;
         var id = Utils.Utils.getParmFromHash(window.location.href, 'id');
         if (typeof (Office.context.mailbox) !== 'undefined') {
             var url = Office.context.mailbox.item.getRegExMatches().Url;
             if (url && url.length > 0) {
                 id = Utils.Utils.getParmFromHash(url[0], 'id');
+                openedFromOutlook = true;
             }
         }
         this.id = ko.observable(id);
@@ -62,7 +56,7 @@ export class ReadViewModel {
         this.loading = ko.observable(true);  
         this.okClicked = ko.observable(false);
         this.showNameDialog = ko.computed(() => {
-            if (this.name().length > 0 && this.email().length > 0) {
+            if ((this.name().length > 0 && this.email().length > 0) || openedFromOutlook) {
                 return false;
             }
             this.loading(false);
