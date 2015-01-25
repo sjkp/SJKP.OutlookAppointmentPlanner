@@ -27,7 +27,6 @@ require(
 export class Read {
 
     constructor() {
-        //ko.applyBindings(new ReadViewModel());
     }
 
 

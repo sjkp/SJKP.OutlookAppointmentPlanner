@@ -993,7 +993,7 @@ declare module Microsoft.Office.WebExtension {
         body: {
             getTypeAsync(options?: any, callback?: (result: AsyncResult) => void): void;
             setSelectedDataAsync(data: string, options?: { coercionType?: CoercionType;}, callback?: (result: AsyncResult) => void): void;
-            prependAsync(data: string, callback?: (result: AsyncResult) => void, options?: {}): void;
+            prependAsync(data: string, options?: {}, callback?: (result: AsyncResult) => void): void;
         };
     }
 }declare module Microsoft.Office.WebExtension {

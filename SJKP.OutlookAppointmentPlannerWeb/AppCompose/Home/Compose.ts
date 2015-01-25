@@ -70,6 +70,7 @@ export class ComposeViewModel {
         if (step === 3) {
             this.createAppointment();
         }
+        window["appInsights"].trackPageView("step" + this.step());
     };
 
     public prev = () => {
@@ -154,7 +155,7 @@ export class ComposeViewModel {
     public setBodyText = () => {
         var self = this;
         Office.context.mailbox.item.body.getTypeAsync(function (type) {
-            var bodyText = '<strong>' + app.app.getName() + '</strong> wants you to provide feedback about which time that suits you best for the appointment<br>' + self.description() + '<br>' + $('#timedaytable').html();
+            var bodyText = '<span style="font-weight:bold;">' + app.app.getName() + '</span> wants you to provide feedback about which time that suits you best for the appointment<br/>' + self.description() + '<br/>' + $('#timedaytable').html();
             bodyText += '<br/><br/>Install the Schdo App for Outlook to provide your answer directly in Outlook, or visit <a href="' + self.url() + '">' + self.url() + '</a> to use our website';
             var bodyType = Office.CoercionType.Html;
             if ((!type.value || type.value.toLowerCase() === "text")) {
@@ -163,7 +164,7 @@ export class ComposeViewModel {
                 bodyText += '\r\nInstall the Schdo App for Outlook to provide your answer directly in Outlook, or visit ' + self.url() + ' to use our website';
             }
             var message = Office.cast.item.toMessageCompose(Office.context.mailbox.item);
-            message.body.setSelectedDataAsync(bodyText, { coercionType: bodyType }, function (asyncResult) {
+            message.body.prependAsync(bodyText, { coercionType: bodyType }, function (asyncResult) {
                 if (asyncResult.status === Office.AsyncResultStatus.Failed) {
                     //Do something.
                 }
