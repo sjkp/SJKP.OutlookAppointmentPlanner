@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions;
-using SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.Models;
+using SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions;
+using SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.Models;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.Controllers
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

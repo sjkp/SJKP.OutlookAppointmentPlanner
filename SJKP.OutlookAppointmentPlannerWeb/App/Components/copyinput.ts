@@ -9,8 +9,8 @@
 
     public selectText = () => {
         this.textSelected(true);
-        if (typeof (window.clipboardData) !== 'undefined') {
-            window.clipboardData.setData("Text", this.content());
+        if (typeof ((<any>window).clipboardData) !== 'undefined') {
+            (<any>window).clipboardData.setData("Text", this.content());
         }
     };
 };

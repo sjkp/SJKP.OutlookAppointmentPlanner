@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions;
+using SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.Models
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

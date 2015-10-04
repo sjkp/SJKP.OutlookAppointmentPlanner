@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

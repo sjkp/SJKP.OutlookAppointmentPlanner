@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using SJKP.OutlookAppoinmentPlannerBackend.Models;
+using SJKP.OutlookAppointmentPlannerWeb.Models;
 using SJKP.ShortCode;
 using System;
 using System.Collections.Generic;
@@ -13,23 +14,26 @@ using System.Web.Http;
 
 namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
 {
-    public class ScheduleController : TableController<ScheduledAppointment>
+    public class ScheduleController : ApiController
     {
-        
-        public ScheduleController() : base("schedules")
+        private ScheduleRepository repo;
+        private ScheduleQueueRepository queue;
+
+        public ScheduleController() 
         {
-            
+            repo = new ScheduleRepository();
+            queue = new ScheduleQueueRepository();
         }
         // GET: api/Schedule
         public IEnumerable<ScheduledAppointment> Get()
         {
-            return SelectMany();
+            return repo.SelectMany();
         }
 
         // GET: api/Schedule/5
         public HttpResponseMessage Get(string id)
         {
-            var entity = GetFirstOrDefault(id);
+            var entity = repo.GetFirstOrDefault(id);
             if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -54,8 +58,8 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
                 }
             }
 
-            await table.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation.Insert(new TableData<ScheduledAppointment>(value)));
-
+            await repo.InsertAsync(value);
+            await queue.InsertAsync(value);
             return value.Id;
         }
 
@@ -63,20 +67,18 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Controllers
         public async Task<HttpResponseMessage> Put(string id, [FromBody]ScheduledAppointment value)
         {
             
-            var existing = GetFirstOrDefault(id);
+            var existing = repo.GetFirstOrDefault(id);
             if (existing == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-            existing.Data = new TableData<ScheduledAppointment>(value).Data;
-            TableOperation operation = Microsoft.WindowsAzure.Storage.Table.TableOperation.Replace(existing);
 
-            var response = await table.ExecuteAsync(operation);
+            var response = await repo.ReplaceAsync(existing, value);
             return Request.CreateResponse(response.HttpStatusCode);
         }
 
         // DELETE: api/Schedule/5
-        public override async Task Delete(string id)
+        public async Task Delete(string id)
         {
             //await base.Delete(id);
         }

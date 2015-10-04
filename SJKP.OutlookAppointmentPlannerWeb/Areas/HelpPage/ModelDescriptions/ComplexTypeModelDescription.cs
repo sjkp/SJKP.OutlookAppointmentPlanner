@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

@@ -1,4 +1,4 @@
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions
 {
     public class CollectionModelDescription : ModelDescription
     {

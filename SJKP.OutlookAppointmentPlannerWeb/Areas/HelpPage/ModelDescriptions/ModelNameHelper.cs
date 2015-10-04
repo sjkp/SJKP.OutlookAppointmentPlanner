@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

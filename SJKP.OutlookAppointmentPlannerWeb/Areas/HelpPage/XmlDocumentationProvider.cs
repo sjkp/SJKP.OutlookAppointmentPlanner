@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions;
+using SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

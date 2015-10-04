@@ -11,10 +11,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions;
-using SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.Models;
+using SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions;
+using SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.Models;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

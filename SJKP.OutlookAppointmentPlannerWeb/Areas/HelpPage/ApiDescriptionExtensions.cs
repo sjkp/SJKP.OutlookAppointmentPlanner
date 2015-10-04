@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

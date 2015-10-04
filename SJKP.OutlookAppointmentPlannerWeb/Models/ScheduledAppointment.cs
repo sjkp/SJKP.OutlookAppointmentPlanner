@@ -13,6 +13,11 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
         public string Description { get; set; }
         public string Id { get; set; }
         public string CreatedBy { get; set; }
+
+        public string GetLink()
+        {
+            return "http://schdo.com/appointment?#?id=" + Id;
+        }
     }
 
     public class ScheduledDate

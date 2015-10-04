@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.31206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJKP.OutlookAppointmentPlanner", "SJKP.OutlookAppointmentPlanner\SJKP.OutlookAppointmentPlanner.csproj", "{50ED0443-1F6D-469F-8ECE-E7256969E6D0}"
 EndProject
@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1E26B1
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJKP.OutlookAppointment.EmailJob", "SJKP.OutlookAppointment.EmailJob\SJKP.OutlookAppointment.EmailJob.csproj", "{1BBF1871-AAB8-4685-BBBA-17AFD12FCF6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SJKP.OutlookAppointmentPlanner.Test", "SJKP.OutlookAppointmentPlanner.Test\SJKP.OutlookAppointmentPlanner.Test.csproj", "{B9490002-AF4C-4292-A6A5-B0613E94FF85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{7445E297-B1DB-4E7E-9120-000829B15820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7445E297-B1DB-4E7E-9120-000829B15820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7445E297-B1DB-4E7E-9120-000829B15820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBF1871-AAB8-4685-BBBA-17AFD12FCF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BBF1871-AAB8-4685-BBBA-17AFD12FCF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BBF1871-AAB8-4685-BBBA-17AFD12FCF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BBF1871-AAB8-4685-BBBA-17AFD12FCF6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9490002-AF4C-4292-A6A5-B0613E94FF85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9490002-AF4C-4292-A6A5-B0613E94FF85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9490002-AF4C-4292-A6A5-B0613E94FF85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9490002-AF4C-4292-A6A5-B0613E94FF85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

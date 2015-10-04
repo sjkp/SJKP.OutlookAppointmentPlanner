@@ -1,6 +1,6 @@
 using System;
 
-namespace SJKP.OutlookAppoinmentPlannerBackend.Areas.HelpPage.ModelDescriptions
+namespace SJKP.OutlookAppointmentPlannerWeb.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.
