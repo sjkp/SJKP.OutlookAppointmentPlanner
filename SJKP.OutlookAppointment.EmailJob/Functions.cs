@@ -20,7 +20,7 @@ namespace SJKP.OutlookAppointment.EmailJob
         private const string fromEmail = "no-reply@schdo.com";
         private const string textEmail = "Please use a mail client that supports HTML to view the message. {0}";
 
-        public async static Task AppointmentCreated([Queue("appointmentcreated")] ScheduledAppointment appointment)
+        public async static Task AppointmentCreated([QueueTrigger("appointmentcreated")] ScheduledAppointment appointment)
         {
             //Send email to appointment planner
             var message = CreateMessage(appointment);
@@ -34,7 +34,7 @@ namespace SJKP.OutlookAppointment.EmailJob
             await Send(message);
         }
 
-        public static async Task AttendeeAccepted([Queue("attendeeaccepted")] Attendee attendeed)
+        public static async Task AttendeeAccepted([QueueTrigger("attendeeaccepted")] Attendee attendeed)
         {
             //Send email to appointment planner
             var scheduleRepository = new ScheduleRepository();
@@ -82,10 +82,12 @@ namespace SJKP.OutlookAppointment.EmailJob
                 body.AppendFormat("<td>{0}</td>", attendee.Name);
                 foreach (var date in schedule.Dates)
                 {
-                    var attendeeDate = attendee.SelectedDates.FirstOrDefault(s => s.Id == date.Id);
+                    //Double checking both Id and Date er due to bug where some attendees got Ids different from those on the Schedule
+                    var attendeeDate = attendee.SelectedDates.FirstOrDefault(s => s.Id == date.Id || s.Date == date.Date);
                     foreach (var timeslot in date.Timeslots)
                     {
-                        if (attendeeDate != null && attendeeDate.Timeslots.Any(s => s.Id == timeslot.Id && s.Selected))
+                        //Double checking both Id and Date er due to bug where some attendees got Ids different from those on the Schedule
+                        if (attendeeDate != null && attendeeDate.Timeslots.Any(s => (s.Id == timeslot.Id || s.Time == timeslot.Time) && s.Selected))
                         {
                             body.Append("<td align=\"center\" style=\"background-color:lightgreen\">Yes</td>");
                             availableSlots.Add(true);
