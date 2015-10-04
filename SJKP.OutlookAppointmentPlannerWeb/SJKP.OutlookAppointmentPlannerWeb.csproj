@@ -272,7 +272,14 @@
     <Content Include="Global.asax" />
     <Content Include="Images\icon128x128.png" />
     <Content Include="Images\icon64x64.png" />
+    <Content Include="Images\OpenSchdo.PNG" />
     <Content Include="Images\progress.gif" />
+    <Content Include="Images\Screenshot1.png" />
+    <Content Include="Images\Screenshot2.png" />
+    <Content Include="Images\Screenshot3.png" />
+    <Content Include="Images\Screenshot4.png" />
+    <Content Include="Images\Screenshot5.png" />
+    <Content Include="Images\Screenshot6.png" />
     <Content Include="Scripts\grayscale.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />

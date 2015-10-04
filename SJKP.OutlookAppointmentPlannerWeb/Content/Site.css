@@ -69,3 +69,7 @@ textarea {
     top: 50%;
     padding-top: 20px;
 }
+
+.width100px {
+    width: 100px;
+}
