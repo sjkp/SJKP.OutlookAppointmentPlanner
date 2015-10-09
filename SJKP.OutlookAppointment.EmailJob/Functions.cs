@@ -12,6 +12,7 @@ using System.Net;
 using SJKP.OutlookAppoinmentPlannerBackend.Controllers;
 using System.Globalization;
 using System.Configuration;
+using System;
 
 namespace SJKP.OutlookAppointment.EmailJob
 {
@@ -58,6 +59,7 @@ namespace SJKP.OutlookAppointment.EmailJob
         public static string BuildHtmlTable(ScheduledAppointment schedule, IEnumerable<Attendee> attendees)
         {
             var culture = new CultureInfo(1033);
+            TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById(schedule.Timezone ?? "W. Europe Standard Time");
             StringBuilder header = new StringBuilder();
             StringBuilder colgroup = new StringBuilder();
             header.Append("<thead><tr><th></th>");
@@ -66,7 +68,7 @@ namespace SJKP.OutlookAppointment.EmailJob
             {
                 foreach (var timeslot in date.Timeslots)
                 {
-                    header.AppendFormat("<th>{0}<br/>{1}<br/>{2}</th>", date.Date.ToString("ddd",culture), date.Date.ToString("dd/MM/yyyy"), timeslot.Time);
+                    header.AppendFormat("<th>{0}<br/>{1}<br/>{2}</th>", TimeZoneInfo.ConvertTimeFromUtc(date.Date, tz).ToString("ddd", culture), TimeZoneInfo.ConvertTimeFromUtc(date.Date, tz).ToString("dd/MM/yyyy"), timeslot.Time);
                     colgroup.Append("<col width=\"100px\" />");
                 }
             }
@@ -82,10 +84,10 @@ namespace SJKP.OutlookAppointment.EmailJob
                 body.AppendFormat("<td>{0}</td>", attendee.Name);
                 foreach (var date in schedule.Dates)
                 {
-                    var attendeeDate = attendee.SelectedDates.FirstOrDefault(s => s.Id == date.Id);
+                    var attendeeDate = attendee.SelectedDates.FirstOrDefault(s => s.Id == date.Id || s.Date == date.Date);
                     foreach (var timeslot in date.Timeslots)
                     {
-                        if (attendeeDate != null && attendeeDate.Timeslots.Any(s => s.Id == timeslot.Id && s.Selected))
+                        if (attendeeDate != null && attendeeDate.Timeslots.Any(s => (s.Id == timeslot.Id || s.Time == timeslot.Time) && s.Selected))
                         {
                             body.Append("<td align=\"center\" style=\"background-color:lightgreen\">Yes</td>");
                             availableSlots.Add(true);

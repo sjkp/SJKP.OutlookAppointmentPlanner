@@ -41,4 +41,11 @@ export module app {
         }
         return Office.context.mailbox.userProfile.displayName;
     };
+
+    export var getTimezone = () => {
+        if (typeof (Office.context.mailbox) === 'undefined') {
+            return '';
+        }
+        return Office.context.mailbox.userProfile.timeZone;
+    };
 };

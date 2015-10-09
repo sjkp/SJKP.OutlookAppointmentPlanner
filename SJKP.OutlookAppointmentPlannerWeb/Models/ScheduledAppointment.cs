@@ -14,6 +14,11 @@ namespace SJKP.OutlookAppoinmentPlannerBackend.Models
         public string Id { get; set; }
         public string CreatedBy { get; set; }
 
+        /// <summary>
+        /// Timezone of the user creating the appointment.
+        /// </summary>
+        public string Timezone { get; set; }
+
         public string GetLink()
         {
             return "http://schdo.com/appointment?#?id=" + Id;

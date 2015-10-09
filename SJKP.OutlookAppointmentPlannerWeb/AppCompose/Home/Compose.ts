@@ -50,7 +50,8 @@ export class ComposeViewModel {
         this.id = ko.observable('');
         this.name = ko.observable(app.app.getName());
         this.email = ko.observable(app.app.getEmail());       
-        this.description = ko.observable('');   
+        this.description = ko.observable('');  
+        this.timezone = app.app.getTimezone(); 
     }
 
     public date: KnockoutObservable<Date>;
@@ -63,6 +64,7 @@ export class ComposeViewModel {
     public name: KnockoutObservable<string>;
     public email: KnockoutObservable<string>;
     public description: KnockoutObservable<string>;
+    public timezone: string;
 
     public next = () => {
         var step = this.step() + 1;
@@ -137,7 +139,8 @@ export class ComposeViewModel {
         var data = {
             "Dates": ko.toJS(this.scheduledDates),
             "Description": self.description(),
-            "CreatedBy": self.email()
+            "CreatedBy": self.email(),
+            "TimeZone": self.timezone
         };
         this.loading(true);
         $.ajax({

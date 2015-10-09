@@ -18,7 +18,7 @@ namespace SJKP.OutlookAppointmentPlanner.Test
             var model = new ScheduledAppointment() {
                 Dates = new List<ScheduledDate>() {
                     new ScheduledDate() {
-                        Date = DateTime.Today,
+                        Date = DateTime.Today.ToUniversalTime(),
                         Id = Guid.NewGuid(),
                         Timeslots = new List<ScheduledTimeslot>() {
                             new ScheduledTimeslot() {
@@ -34,7 +34,7 @@ namespace SJKP.OutlookAppointmentPlanner.Test
                         }
                     },
                     new ScheduledDate() {
-                        Date = DateTime.Today.AddDays(2),
+                        Date = DateTime.Today.ToUniversalTime().AddDays(2),
                         Id = Guid.NewGuid(),
                         Timeslots = new List<ScheduledTimeslot>() {
                             new ScheduledTimeslot() {
@@ -45,7 +45,7 @@ namespace SJKP.OutlookAppointmentPlanner.Test
                         }
                     },
                     new ScheduledDate() {
-                        Date = DateTime.Today.AddDays(3),
+                        Date = DateTime.Today.ToUniversalTime().AddDays(3),
                         Id = Guid.NewGuid(),
                         Timeslots = new List<ScheduledTimeslot>() {
                             new ScheduledTimeslot() {
