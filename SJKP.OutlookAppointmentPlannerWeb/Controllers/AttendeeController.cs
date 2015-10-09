@@ -44,14 +44,6 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Controllers
         public async Task<string> Post([FromBody]Attendee value)
         {
             value.Id = Guid.NewGuid().ToString();          
-            foreach (var s in value.SelectedDates)
-            {
-                s.Id = Guid.NewGuid();
-                foreach (var t in s.Timeslots)
-                {
-                    t.Id = Guid.NewGuid();
-                }
-            }
 
             await repo.InsertAsync(value);
             await queue.InsertAsync(value);

@@ -29,5 +29,19 @@ namespace SJKP.OutlookAppointmentPlannerWeb.Models
                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, scheduleId));
             return table.ExecuteQuery(query).Select(s => s.Entity);
         }
+
+        public override async Task<TableResult> InsertAsync(Attendee value)
+        {
+            return await table.ExecuteAsync(Microsoft.WindowsAzure.Storage.Table.TableOperation.Insert(new AttendeeData(value)));
+        }
+
+        public override async Task<TableResult> ReplaceAsync(TableData<Attendee> existing, Attendee value)
+        {
+            existing.Data = new AttendeeData(value).Data;
+            TableOperation operation = Microsoft.WindowsAzure.Storage.Table.TableOperation.Replace(existing);
+
+            var response = await table.ExecuteAsync(operation);
+            return response;
+        }
     }
 }
